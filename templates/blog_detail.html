@@ -1,0 +1,230 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+
+<style>
+    .ckeditor-content img {
+        border-radius: 30px;
+        object-fit:contain;
+    }
+</style>
+
+<section>
+    <div class="border-b border-gray-300 mb-8 mt-[3rem]">
+        <div class="flex items-center text-sm gap-3 ">
+            <a href="{% url 'index' %}" class="font-semibold text-gray-500">Home ></a><a href=""
+                class="text-gray-500 font-semibold">{{blog.category.title}} ></a><a href="">{{blog.title}}</a>
+        </div>
+        <div class="grid grid-cols-2 gap-7 mt-6">
+            <div>
+                <p class="font-semibold text-[#206bea]">{{blog.category.title}}</p>
+                <h1 class="font-bold text-6xl tracking-tight leading-[4rem] mt-2">{{blog.title}}</h1>
+                <p class="font-medium mt-3 text-gray-500">{{blog.content|truncatewords:13}}</p>
+            </div>
+            <img src="{{blog.image.url}}" alt="" class=" rounded-xl object-cover">
+        </div>
+        <div>
+            <div class="flex items-center gap-2">
+                <img src="{{blog.author.image.url}}" alt="" class="h-[3rem] w-[3rem] object-cover rounded-2xl ">
+                <h2 class="font-bold">{{blog.author.fullname}}</h2>
+            </div>
+            <div class="mt-2 space-x-2">
+                <span>
+                    <i class="fa-regular fa-comment text-[#1d4ed8]"></i>
+                    <span class="font-semibold text-gray-500 ">{{comments.count}}</span>
+                </span>
+                <span class="text-xs font-semibold text-gray-500">{{blog.created_at}}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-[1fr_3fr_2fr] gap-8">
+        <div>
+            <h3 class="text-[12px] font-bold uppercase tracking-[0.14em] text-zinc-500">Contents</h3>
+            <h1 class="mt-5">{{blog.title}}</h1>
+            <p>Lorem ipsum dolor sit amet.</p>
+        </div>
+
+        <div>
+            <div class="ckeditor-content prose">
+                {{blog.content|safe}}
+            </div>
+
+            <div class="border-t border-gray-200 border-b border-gray-200 py-4 mt-8">
+                <span class="font-semibold text-sm  text-[#3B7DED]">{{blog.category.title}}</span>
+                <div class="flex items-center justify-between">
+                    <div class="mt-[2rem] flex items-center gap-3">
+                        <span>
+                            <i class="fa-regular fa-comment text-[#1d4ed8]"></i>
+                            <span class="font-semibold text-gray-500 ">{{comments.count}}</span>
+                        </span>
+                        <span>
+                            <i class="fa-regular fa-thumbs-up text-[#1d4ed8]"></i>
+                            <span class="font-semibold text-gray-500 ">{{comments.count}}</span>
+                        </span>
+                    </div>
+                    <span class="text-sm font-semibold text-gray-500">{{blog.created_at}}</span>
+
+                </div>
+
+            </div>
+
+            <!-- Comment Form -->
+            <div
+                class="mt-[3rem] rounded-2xl border border-zinc-200 bg-white p-8 text-zinc-900 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100">
+                <h2 class="text-2xl font-semibold tracking-tight">Leave a Reply</h2>
+                <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+                    Your email address will not be published.<br />
+                    Required fields are marked <span class="font-semibold">*</span>
+                </p>
+
+                <form action="{% url 'comment' blog.id %}" method="POST" class="mt-6 space-y-5">
+                    {% csrf_token %}
+
+                    <!-- Name / Email -->
+                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                        <div class="space-y-1.5">
+                            <label class="text-sm font-medium text-zinc-800 dark:text-zinc-200">
+                                Name <span class="text-red-500">*</span>
+                            </label>
+                            <input name="name" type="text" placeholder="Enter Your Name"
+                                class="w-full rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-zinc-700 dark:bg-zinc-950/40 dark:text-zinc-100 dark:placeholder:text-zinc-500" />
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="text-sm font-medium text-zinc-800 dark:text-zinc-200">
+                                E-mail <span class="text-red-500">*</span>
+                            </label>
+                            <input name="email" type="email" placeholder="Enter Your E-mail"
+                                class="w-full rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-zinc-700 dark:bg-zinc-950/40 dark:text-zinc-100 dark:placeholder:text-zinc-500" />
+                        </div>
+                    </div>
+
+                    <!-- Message -->
+                    <div class="space-y-1.5">
+                        <label class="text-sm font-medium text-zinc-800 dark:text-zinc-200">
+                            Message <span class="text-red-500">*</span>
+                        </label>
+                        <textarea name="message" rows="5" placeholder="Your Message"
+                            class="w-full rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-zinc-700 dark:bg-zinc-950/40 dark:text-zinc-100 dark:placeholder:text-zinc-500"></textarea>
+                    </div>
+
+                    <!-- Remember me -->
+                    <div class="flex items-start gap-3 text-sm text-zinc-600 dark:text-zinc-400">
+                        <input id="remember" type="checkbox" name="save"
+                            class="mt-0.5 h-4 w-4 rounded border-zinc-300 bg-white text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-zinc-600 dark:bg-zinc-900 dark:text-blue-500" />
+                        <label for="remember">
+                            Save my name and e-mail in this browser for the next time I comment.
+                        </label>
+                    </div>
+
+                    <!-- Submit -->
+                    <button type="submit"
+                        class="inline-flex items-center rounded-xl  px-5 py-2.5 text-sm font-semibold text-zinc-50 bg-[#1D4ED8] hover:bg-blue-500">
+                        Submit Comment
+                    </button>
+                </form>
+            </div>
+
+
+        </div>
+
+        <div class="space-y-[2rem]">
+            <div>
+                <!-- Label -->
+                <h3 class="text-[12px] font-bold uppercase tracking-[0.14em] text-zinc-500">Spotlight</h3>
+
+                <!-- Item 1 -->
+
+                {% for b in blogs|slice:":4" %}
+                <a href="" class="flex justify-between mt-8 border-b border-gray-300 pb-3 gap-[1rem]">
+                    <div>
+                        <p class="text-sm font-semibold text-blue-800 hover:underline dark:text-blue-400">
+                            {{b.category.title}}
+                        </p>
+                        <h2 class="mt-1 text-xl font-semibold leading-snug text-zinc-900 dark:text-zinc-100">
+                            {{b.title}}
+                        </h2>
+                        <p class="mt-2 text-[14px] text-zinc-500 dark:text-zinc-400">{{b.created_at}}</p>
+                    </div>
+                    <img src="{{b.image.url}}" alt="" class="w-[5rem] h-[5rem] rounded-lg object-cover">
+                </a>
+
+                {% endfor %}
+            </div>
+
+            <div>
+                <!-- Label -->
+
+                <h3 class="text-[11px] font-semibold uppercase tracking-[0.14em] text-zinc-500">QUICK LNKS</h3>
+                {% for b in blogs|slice:":4" %}
+                <div class="flex items-center gap-4 mt-3">
+                    <span class="py-1 px-3 bg-[#206BEA] text-white font-semibold rounded-lg">{{ forloop.counter}}</span>
+                    <h1 class="text-[19px] font-bold text-black">{{b.title|truncatewords:6}}</h1>
+                </div>
+                {% endfor %}
+
+
+            </div>
+
+        </div>
+    </div>
+    <div class="mt-[5rem]">
+        <h3 class="text-[15px] font-bold uppercase tracking-[0.14em] text-zinc-500">Read next</h3>
+        <div class="grid grid-cols-3 gap-7 ">
+
+            {% for b in blogs|slice:":3" %}
+            <a href="{% url 'blog_detail' b.id %}" class="group block overflow-hidden rounded-2xl border border-zinc-200 bg-white 
+                               shadow-[0_30px_60px_-25px_rgba(2,6,23,0.35)] 
+                               dark:border-zinc-800 dark:bg-zinc-900">
+                <!-- Cover -->
+                <img src="{{ b.image.url }}" alt="{{ b.title }}" class="h-52 w-full object-cover" />
+
+                <!-- Body -->
+                <div class="p-6">
+                    <!-- Category (span, not <a>) -->
+                    <span class="inline-flex items-center gap-1 text-[12px] font-medium text-blue-600 
+                                   group-hover:underline dark:text-blue-400">
+                        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="14" rx="2"></rect>
+                            <path d="M7 20h10"></path>
+                        </svg>
+                        {{ b.category.title }}
+                    </span>
+
+                    <!-- Title -->
+                    <h2
+                        class="mt-2 text-[22px] font-bold leading-tight tracking-tight text-zinc-900 dark:text-zinc-100">
+                        {{ b.title }}
+                    </h2>
+
+                    <!-- Excerpt -->
+                    <p class="mt-2 text-[14px] leading-6 text-zinc-600 dark:text-zinc-400">
+                        {{ b.content|truncatewords:40 }}
+                    </p>
+
+                    <!-- Meta -->
+                    <div class="mt-5 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <img src="{{ b.author.image.url }}" alt="{{ b.author.fullname }}"
+                                class="h-8 w-8 rounded-full ring-2 ring-zinc-100 dark:ring-zinc-800" />
+                            <span class="text-[14px] font-medium text-zinc-800 dark:text-zinc-200">
+                                {{ b.author.fullname }}
+                            </span>
+                        </div>
+                        <time class="text-[14px] text-zinc-500 dark:text-zinc-400">
+                            {{ b.created_at|date:"F j, Y" }}
+                        </time>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+
+</section>
+{% endblock content %}

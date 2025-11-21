@@ -1,0 +1,191 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+
+{% block content %}
+<section class="px-[2rem]">
+    <div class="py-20 text-center">
+        <!-- Pill / Badge -->
+        <a href="#" class="inline-block">
+            <span class="relative inline-flex items-center gap-2 rounded-full p-[2px]">
+                <!-- gradient ring -->
+                <span
+                    class="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 to-rose-400 opacity-80 "></span>
+                <span
+                    class="relative inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-bold text-gray-700 shadow-sm dark:bg-zinc-900 dark:text-zinc-200">
+                    This Week in Motion
+                </span>
+            </span>
+        </a>
+
+        <!-- Heading -->
+        <h1
+            class="mt-5 text-2xl font-bold tracking-tight text-zinc-900 sm:text-5xl md:text-5xl dark:text-zinc-100 font-[Plus Jakarta Sans]">
+            Just a Blog Floating
+            <br class="hidden sm:block" />
+            Through the Noise
+        </h1>
+
+        <!-- Subhead -->
+        <p class="text-center text-sm font-normal text-base leading-7 text-gray-500 sm:text-lg dark:text-zinc-400 mt-4">
+            A quiet space in the noise — drifting thoughts, <br> small truths, and everything in between.
+        </p>
+    </div>
+    <div class="mx-auto max-w-6xl px-4">
+        
+        {% for b in blogs|slice:"7:8" %}
+            <a href="{% url 'blog_detail' b.id %}" class="group grid grid-cols-2 gap-5 overflow-hidden rounded-2xl border border-zinc-200 bg-white 
+                               shadow-[0_30px_60px_-25px_rgba(2,6,23,0.35)] 
+                               dark:border-zinc-800 dark:bg-zinc-900">
+                <!-- Cover -->
+                <img src="{{ b.image.url }}" alt="{{ b.title }}" class=" w-full  w-[50%] object-cover" />
+            
+                <!-- Body -->
+                <div class="p-6">
+                    <!-- Category (span, not <a>) -->
+                    <span class="inline-flex items-center gap-1 text-[12px] font-medium text-blue-600 
+                                   group-hover:underline dark:text-blue-400">
+                        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="14" rx="2"></rect>
+                            <path d="M7 20h10"></path>
+                        </svg>
+                        {{ b.category.title }}
+                    </span>
+            
+                    <!-- Title -->
+                    <h2 class="mt-2 text-[22px] font-bold leading-tight tracking-tight text-zinc-900 dark:text-zinc-100">
+                        {{ b.title }}
+                    </h2>
+            
+                    <!-- Excerpt -->
+                    <p class="mt-2 text-[14px] leading-6 text-zinc-600 dark:text-zinc-400">
+                        {{ b.content|truncatewords:40 }}
+                    </p>
+            
+                    <!-- Meta -->
+                    <div class="mt-5 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <img src="{{ b.author.image.url }}" alt="{{ b.author.fullname }}"
+                                class="h-8 w-8 rounded-full ring-2 ring-zinc-100 dark:ring-zinc-800" />
+                            <span class="text-[14px] font-medium text-zinc-800 dark:text-zinc-200">
+                                {{ b.author.fullname }}
+                            </span>
+                        </div>
+                        <time class="text-[14px] text-zinc-500 dark:text-zinc-400">
+                            {{ b.created_at|date:"F j, Y" }}
+                        </time>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+            
+    </div>
+
+    <div class="grid grid-cols-[65%_35%] gap-10 content-center mt-20">
+
+        <div class="grid grid-cols-2 gap-5">
+            {% for b in blogs|slice:":6" %}
+            <a href="{% url 'blog_detail' b.id %}" class="group block overflow-hidden rounded-2xl border border-zinc-200 bg-white 
+                   shadow-[0_30px_60px_-25px_rgba(2,6,23,0.35)] 
+                   dark:border-zinc-800 dark:bg-zinc-900">
+                <!-- Cover -->
+                <img src="{{ b.image.url }}" alt="{{ b.title }}" class="h-52 w-full object-cover" />
+        
+                <!-- Body -->
+                <div class="p-6">
+                    <!-- Category (span, not <a>) -->
+                    <span class="inline-flex items-center gap-1 text-[12px] font-medium text-blue-600 
+                       group-hover:underline dark:text-blue-400">
+                        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="14" rx="2"></rect>
+                            <path d="M7 20h10"></path>
+                        </svg>
+                        {{ b.category.title }}
+                    </span>
+        
+                    <!-- Title -->
+                    <h2 class="mt-2 text-[22px] font-bold leading-tight tracking-tight text-zinc-900 dark:text-zinc-100">
+                        {{ b.title }}
+                    </h2>
+        
+                    <!-- Excerpt -->
+                    <p class="mt-2 text-[14px] leading-6 text-zinc-600 dark:text-zinc-400">
+                        {{ b.content|truncatewords:40 }}
+                    </p>
+        
+                    <!-- Meta -->
+                    <div class="mt-5 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <img src="{{ b.author.image.url }}" alt="{{ b.author.fullname }}"
+                                class="h-8 w-8 rounded-full ring-2 ring-zinc-100 dark:ring-zinc-800" />
+                            <span class="text-[14px] font-medium text-zinc-800 dark:text-zinc-200">
+                                {{ b.author.fullname }}
+                            </span>
+                        </div>
+                        <time class="text-[14px] text-zinc-500 dark:text-zinc-400">
+                            {{ b.created_at|date:"F j, Y" }}
+                        </time>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+
+
+        <div class="space-y-[2rem]">
+            <div>
+                <!-- Label -->
+                <h3 class="text-[11px] font-bold uppercase tracking-[0.14em] text-zinc-500">Spotlight</h3>
+
+                <!-- Item 1 -->
+
+                {% for b in blogs|slice:":4" %}
+                <a href="{% url 'blog_detail' b.id %}" class="flex justify-between mt-5 border-b border-gray-200 pb-3 gap-[2rem]">
+                    <div>
+                        <p class="font-semibold text-[#206BEA] hover:underline dark:text-blue-400 tracking-tight">
+                            {{b.category.title}}
+                        </p>
+                        <h2 class="mt-1 text-xl font-semibold leading-snug text-zinc-900 dark:text-zinc-100 tracking-tight">
+                            {{b.title}}
+                        </h2>
+                        <p class="mt-2 text-[14px] text-zinc-500 dark:text-zinc-400 font-medium text-sm">{{b.created_at}}</p>
+                    </div>
+                    <img src="{{b.image.url}}" alt="" class="w-[5rem] h-[5rem] rounded-lg object-cover">
+                </a>
+
+                {% endfor %}
+            </div>
+
+            <div>
+                <!-- Label -->
+
+                <h3 class="text-[11px] font-semibold uppercase tracking-[0.14em] text-zinc-500">QUICK LNKS</h3>
+                {% for b in blogs|slice:":4" %}
+                <a href="{% url 'blog_detail' b.id %}" class="flex items-center gap-4 mt-3 hover:underline">
+                    <span class="py-1 px-3 bg-[#206BEA] text-white font-semibold rounded-lg text-sm">{{ forloop.cecho "# My Project" > README.mdecho "ounter}}</span>
+                    <h1 class="text-[18px] font-semibold text-black tracking-tight">{{b.title|truncatewords:6}}</h1>
+                </a>
+                {% endfor %}
+
+
+            </div>
+
+        </div>
+    </div>
+    <div class="mt-[5rem] flex flex-col items-start justify-start">
+        <h3 class="text-[11px] font-semibold uppercase tracking-[0.14em] text-zinc-500">Read by category</h3>
+
+        <div class="flex items-center gap-6 mt-7">
+            {% for b in blogs|slice:":6" %}
+            <a href="{% url 'detail' b.id %}">
+                <img src="{{b.category.image.url}}" alt="" class="h-[10rem] w-[12rem] object-cover rounded-xl">
+                <p class="font-semibold text-sm mt-1">{{b.category.title}}</p>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+</section>
+
+
+{% endblock content %}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- In <head> -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap">
+
+    {{form.media}}
+</head>
+
+<body class="flex h-screen relative gap-10 bg-zinc-50">
+    <div class="h-full inset-y-0 fixed w-[15%]">
+        {% include 'sidebar.html' %}
+    </div>
+    <main class="p-8 flex-1 ml-[15%] pt-[4rem]">
+        <h1 class="font-bold text-3xl">Add blog</h1>
+
+            <div class="border border-gray-200 rounded-xl mt-6 h-fit p-7 bg-white">
+            
+                <form action="{% url 'add_blog' %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+            
+                    <!-- Title -->
+                    <div class="mb-4">
+                        <label for="title" class="block mb-1">Title</label>
+                        {{form.title}}
+                    </div>
+            
+                    <!-- Content -->
+                    <div class="mb-4">
+                        <label for="content" class="block mb-1">Content</label>
+                        {{form.content}}
+                    </div>
+            
+                    <!-- Image -->
+                    <div class="mb-4">
+                        <label for="image" class="block mb-1">Image</label>
+                        {{form.image}}
+                    </div>
+            
+                    <!-- Category -->
+                    <div class="mb-4">
+                        <label for="category" class="block mb-1">Category</label>
+                        {{form.category}}
+                    </div>
+            
+                    <!-- Submit -->
+                    <button type="submit" class="px-4 py-2 bg-[#3b7ded] text-white rounded">
+                        Add Blog
+                    </button>
+                </form>
+            
+            </div>
+
+    </main>
+</body>
+
+</html>

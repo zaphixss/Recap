@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- In <head> -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap">
+
+    {{form.media}}
+</head>
+
+<body class="flex h-screen relative gap-10">
+    <div class="h-full inset-y-0 fixed w-[15%]">
+        {% include 'sidebar.html' %}
+    </div>
+    <div class="flex-1 ml-[15%] min-h-screen bg-zinc-50 p-8 pt-[4rem]">
+        <!-- Page header -->
+        <div class="mb-6 flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold tracking-tight text-gray-900 ">
+                    Profile Settings
+                </h1>
+                <p class="mt-1 text-sm text-gray-500">
+                    Update your author details that appear on posts.
+                </p>
+            </div>
+
+            <div
+                class="hidden items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-600 md:flex">
+                <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+                <span>Profile active</span>
+            </div>
+        </div>
+
+        <!-- Card with form -->
+        <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+            <form method="POST" enctype="multipart/form-data" class="space-y-6">
+                {% csrf_token %}
+
+                <!-- Fullname -->
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-gray-700" for="id_fullname">
+                        Full name
+                    </label>
+                    {{ form.fullname }}
+                </div>
+
+                <!-- Headline -->
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-gray-700" for="id_headline">
+                        Headline
+                    </label>
+                    {{ form.headline }}
+                </div>
+
+                <!-- Bio -->
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-gray-700" for="id_bio">
+                        Bio
+                    </label>
+                    {{ form.bio }}
+                </div>
+
+                <!-- Country -->
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-gray-700" for="id_country">
+                        Country
+                    </label>
+                    {{ form.country }}
+                </div>
+
+                <!-- Image -->
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-gray-700" for="id_image">
+                        Profile image
+                    </label>
+                    {{ form.image }}
+                </div>
+
+                <!-- Socials -->
+                <div class="border-t border-gray-200 pt-4">
+                    <h2 class="mb-3 text-sm font-semibold text-gray-800">
+                        Social links
+                    </h2>
+
+                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                        <div>
+                            <label class="mb-1 block text-sm font-medium text-gray-700" for="id_youtube">
+                                YouTube
+                            </label>
+                            {{ form.youtube }}
+                        </div>
+
+                        <div>
+                            <label class="mb-1 block text-sm font-medium text-gray-700" for="id_linkedin">
+                                LinkedIn
+                            </label>
+                            {{ form.linkedin }}
+                        </div>
+
+                        <div>
+                            <label class="mb-1 block text-sm font-medium text-gray-700" for="id_facebook">
+                                Facebook
+                            </label>
+                            {{ form.facebook }}
+                        </div>
+
+                        <div>
+                            <label class="mb-1 block text-sm font-medium text-gray-700" for="id_twitter">
+                                Twitter
+                            </label>
+                            {{ form.twitter }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <div class="flex items-center justify-between pt-4">
+                    <p class="text-xs text-gray-400">
+                        Make sure everything looks correct before saving.
+                    </p>
+
+                    <button type="submit"
+                        class="inline-flex items-center rounded-lg bg-[#3B7DED] px-4 py-2 text-sm font-medium text-white
+                                   hover:bg-[#2f68c4] focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-1">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>

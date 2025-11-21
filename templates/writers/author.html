@@ -1,0 +1,58 @@
+{% extends "partials/base.html" %}
+{% load static %}
+
+{% block content %}
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+    <!-- Breadcrumb -->
+    <div class="mb-6 flex items-center gap-2 text-sm text-zinc-500">
+        <a href="{% url 'index' %}" class="text-gray-500 font-medium">Home</a>
+        <span>></span>
+        <span class="">Authors</span>
+    </div>
+
+    <!-- Page header -->
+    <header class="mb-10">
+        <h1 class="text-3xl sm:text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+            Meet our authors
+        </h1>
+        <p class="mt-3 max-w-2xl text-sm sm:text-base text-zinc-600 dark:text-zinc-400">
+            Browse all writers who share ideas, stories and insights across business, design,
+            technology and more.
+        </p>
+    </header>
+
+    <!-- Authors grid -->
+    <section class="grid gap-6 grid-cols-3">
+        {% for a in author %}
+        <div class="max-w-xs rounded-2xl border border-zinc-200 bg-white shadow-sm p-4 flex flex-col gap-4">
+            <!-- Image -->
+            <div class="rounded-2xl bg-zinc-100 overflow-hidden h-52">
+                <!-- Replace src with your real image -->
+                <img src="{{a.image.url}}" alt="Author image" class="h-full w-full object-cover" />
+            </div>
+
+            <!-- Bottom section -->
+            <div class="flex items-center justify-between gap-3">
+                <!-- Name + headline -->
+                <div class="min-w-0">
+                    <p class="text-sm font-semibold text-zinc-900 truncate">
+                        {{a.fullname}}
+                    </p>
+                    <p class="text-xs text-zinc-500 truncate ">
+                        {{a.headline}}
+                    </p>
+                </div>
+
+                <!-- View details pill -->
+                <a href="{% url 'author_detail' a.user.username  %}"
+                    class="shrink-0 rounded-full border border-[#206bea] px-4 py-1.5 text-xs font-medium text-[#206bea] hover:bg-zinc-50 transition"
+                    type="button">
+                    view details 
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </section>
+</main>
+{% endblock content %}
